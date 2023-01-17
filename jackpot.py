@@ -71,7 +71,7 @@ def main():
     search_field = driver.find_element(By.ID, "search_form_input_homepage")
 
     # Instantiate the jackpot file.
-    jackpot_file = "new_jackpot.txt"
+    jackpot_file = "./jackpots/new_jackpot.txt"
 
     # Collect the games to be played.
     games = games_to_be_played(jackpot_file)
