@@ -24,10 +24,12 @@ def games_to_be_played(jp_file: str) -> list:
     return games
 
 
-def create_filename(game: str):
+def create_filename(game: str) -> str:
     """
     Function to create a filename for each game
     """
+    game = game.split(" ")[0]
+
     filename = game + ".txt"
     return filename
 
@@ -38,19 +40,19 @@ def write_links_to_file(filename: str, links: list):
     """
     with open(filename, "w", encoding="utf-8") as file:
         for link in links:
-            file.write(link + "\n")
+            file.write(link.get_attribute("href") + "\n")
 
 
-def search_links(games: list):
-    """
-    Function to search for links
-    """
-    links: list = games
-
-    for game in games:
-        links.append(game)
-
-    return links
+# def search_links(games: list):
+#     """
+#     Function to search for links
+#     """
+#     links: list = games
+#
+#     for game in games:
+#         links.append(game)
+#
+#     return links
 
 
 # Run a file cleaner on all txt files
@@ -78,9 +80,7 @@ def main():
     """
     driver.get("https://www.duckduckgo.com")
 
-    driver.find_element(By.ID, "q").click()
-
-    driver.find_element(By.ID, "login").send_keys(Keys.ENTER)
+    search_field = driver.find_element(By.ID, "search_form_input_homepage")
 
     # Instantiate the jackpot file.
     jackpot_file = "new_jackpot.txt"
@@ -90,13 +90,23 @@ def main():
 
     for game in games:
         # Create a filename for each game.
-        filename = create_filename(game)
+        filename: str = create_filename(game)
 
-        # Search for links.
-        links = search_links(game)
+        query: str = game.rstrip() + " match prediction"
 
-        # Write links to file.
+        search_field.send_keys(query)
+        search_field.send_keys(Keys.ENTER)
+
+        links: list = driver.find_elements(By.XPATH, "//a[@href]")
+
         write_links_to_file(filename, links)
+
+        search_field = driver.find_element(By.ID, "search_form_input")
+
+        # Clear the search field.
+        search_field.send_keys(Keys.CONTROL + 'a')
+
+    file_cleaner()
 
 
 if __name__ == "__main__":
