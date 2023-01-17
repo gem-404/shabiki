@@ -18,7 +18,7 @@ def games_to_be_played(jp_file: str) -> list:
     Function to get games from file and return a list
     """
 
-    with open(jp_file, "r") as file:
+    with open(jp_file, "r", encoding="utf-8") as file:
         games = file.read().splitlines()
 
     return games
@@ -36,11 +36,9 @@ def write_links_to_file(filename: str, links: list):
     """
     Function to write links to file
     """
-    with open(filename, "w") as file:
+    with open(filename, "w", encoding="utf-8") as file:
         for link in links:
             file.write(link + "\n")
-
-    return None
 
 
 def search_links(games: list):
@@ -63,13 +61,13 @@ def file_cleaner():
     os.system("sh ./cut_duck_sites.sh")
 
 
-executable_path = "/usr/bin/brave"
-chrome_driver = "/usr/bin/chromedriver"
+EXECUTABLE_PATH = "/usr/bin/brave"
+CHROME_DRIVER = "/usr/bin/chromedriver"
 
-service = Service(chrome_driver)
+service = Service(CHROME_DRIVER)
 
 options = webdriver.ChromeOptions()
-options.binary_location = executable_path
+options.binary_location = EXECUTABLE_PATH
 
 driver = webdriver.Chrome(service=service, options=options)
 
