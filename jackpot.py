@@ -43,18 +43,6 @@ def write_links_to_file(filename: str, links: list):
             file.write(link.get_attribute("href") + "\n")
 
 
-# def search_links(games: list):
-#     """
-#     Function to search for links
-#     """
-#     links: list = games
-#
-#     for game in games:
-#         links.append(game)
-#
-#     return links
-
-
 # Run a file cleaner on all txt files
 def file_cleaner():
     """
