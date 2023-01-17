@@ -37,11 +37,17 @@ def main():
     """
     Main function to login and search for links
     """
+
     driver.get("https://www.shabiki.com/Login")
 
-    driver.find_element(By.ID, "q").click()
+    driver.find_element(By.ID, "userMobile").send_keys(MOBILE_NO)
 
-    driver.find_element(By.ID, "q").send_keys(Keys.ENTER)
+    driver.find_element(By.ID, "userPass").send_keys(PASSWORD)
+
+    # Login
+    driver.find_element(By.ID, "disableLoginButtonClick").send_keys(Keys.ENTER)
+
+    driver.find_elements(By.CLASS_NAME, "SB-jackpot")[0].click()
 
 
 if __name__ == "__main__":
